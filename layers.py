@@ -18,7 +18,7 @@ class Layer:
 class FCLayer(Layer):
     def __init__(self, input_size, output_size):
         self.weights = np.random.rand(input_size, output_size) - 0.5
-        self.bias = np.random.rand(output_size) - 0.5
+        self.bias = np.random.rand(1, output_size) - 0.5
 
     def forward_propagation(self, input_data):
         self.input = input_data
@@ -42,9 +42,9 @@ class ActivationLayer(Layer):
 
     def forward_propagation(self, input_data):
         self.input = input_data
-        self.output = self.activation(input_data)
+        self.output = self.activation(self.input)
         return self.output
 
     def backward_propagation(self, output_error, lr):
         # note: no learnable params, so lr not used
-        return self.activation_prime(self.output) * output_error
+        return self.activation_prime(self.input) * output_error
